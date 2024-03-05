@@ -22,6 +22,14 @@ func (c *UserDbClient) AddInterest(userKey string, interest string, networkIds .
 	return c.apiClient.AddInterest(c.NetworkId(networkIds...), userKey, interest)
 }
 
+func (c *UserDbClient) AddMultipleInterests(userKey string, interests []string, networkIds ...int) error {
+	return c.apiClient.AddMultipleInterests(c.NetworkId(networkIds...), userKey, interests)
+}
+
+func (c *UserDbClient) RemoveMultipleInterests(userKey string, interests []string, networkIds ...int) error {
+	return c.apiClient.RemoveMultipleInterests(c.NetworkId(networkIds...), userKey, interests)
+}
+
 func (c *UserDbClient) AddRetargetingSegment(userKey string, advertiserId, retargetingSegmentId int, networkIds ...int) error {
 	return c.apiClient.AddRetargetingSegment(c.NetworkId(networkIds...), userKey, advertiserId, retargetingSegmentId)
 }

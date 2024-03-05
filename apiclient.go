@@ -108,6 +108,30 @@ func (c *ApiClient) AddInterest(networkId int, userKey string, interest string) 
 	return err
 }
 
+func (c *ApiClient) AddMultipleInterests(networkId int, userKey string, interests []string) error {
+	values := url.Values{
+		"userKey": {userKey},
+	}
+	urlStr := fmt.Sprintf("%s/%d/interests?%s", c.basePath, networkId, values.Encode())
+	body, _ := json.Marshal(interests)
+	c.requestHeaders["Accept"] = "text/plain"
+	c.requestHeaders["Content-Type"] = "application/json"
+	_, err := c.request("POST", urlStr, &body)
+	return err
+}
+
+func (c *ApiClient) RemoveMultipleInterests(networkId int, userKey string, interests []string) error {
+	values := url.Values{
+		"userKey": {userKey},
+	}
+	urlStr := fmt.Sprintf("%s/%d/interests?%s", c.basePath, networkId, values.Encode())
+	body, _ := json.Marshal(interests)
+	c.requestHeaders["Accept"] = "text/plain"
+	c.requestHeaders["Content-Type"] = "application/json"
+	_, err := c.request("DELETE", urlStr, &body)
+	return err
+}
+
 func (c *ApiClient) AddRetargetingSegment(networkId int, userKey string, advertiserId, retargetingSegmentId int) error {
 	values := url.Values{
 		"userKey": {userKey},
