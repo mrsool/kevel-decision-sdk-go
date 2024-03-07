@@ -22,8 +22,8 @@ func (c *UserDbClient) AddInterest(userKey string, interest string, networkIds .
 	return c.apiClient.AddInterest(c.NetworkId(networkIds...), userKey, interest)
 }
 
-func (c *UserDbClient) AddMultipleInterests(userKey string, interests []string, networkIds ...int) error {
-	return c.apiClient.AddMultipleInterests(c.NetworkId(networkIds...), userKey, interests)
+func (c *UserDbClient) AddInterests(userKey string, interests []string, networkIds ...int) error {
+	return c.apiClient.AddInterests(c.NetworkId(networkIds...), userKey, interests)
 }
 
 func (c *UserDbClient) RemoveMultipleInterests(userKey string, interests []string, networkIds ...int) error {

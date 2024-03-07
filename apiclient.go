@@ -108,7 +108,7 @@ func (c *ApiClient) AddInterest(networkId int, userKey string, interest string) 
 	return err
 }
 
-func (c *ApiClient) AddMultipleInterests(networkId int, userKey string, interests []string) error {
+func (c *ApiClient) AddInterests(networkId int, userKey string, interests []string) error {
 	values := url.Values{
 		"userKey": {userKey},
 	}
