@@ -120,7 +120,7 @@ func (c *ApiClient) AddInterests(networkId int, userKey string, interests []stri
 	return err
 }
 
-func (c *ApiClient) RemoveMultipleInterests(networkId int, userKey string, interests []string) error {
+func (c *ApiClient) RemoveInterests(networkId int, userKey string, interests []string) error {
 	values := url.Values{
 		"userKey": {userKey},
 	}
