@@ -93,6 +93,7 @@ func (c *ApiClient) SetCustomProperties(networkId int, userKey string, props map
 	}
 	urlStr := fmt.Sprintf("%s/%d/custom?%s", c.basePath, networkId, values.Encode())
 	body, _ := json.Marshal(props)
+	c.requestHeaders["Accept"] = "text/plain"
 	c.requestHeaders["Content-Type"] = "application/json"
 	_, err := c.request("POST", urlStr, &body)
 	return err
@@ -104,7 +105,32 @@ func (c *ApiClient) AddInterest(networkId int, userKey string, interest string) 
 		"interest": {interest},
 	}
 	urlStr := fmt.Sprintf("%s/%d/interest/i.gif?%s", c.basePath, networkId, values.Encode())
+	c.requestHeaders["Accept"] = "text/plain"
 	_, err := c.request("GET", urlStr, nil)
+	return err
+}
+
+func (c *ApiClient) AddInterests(networkId int, userKey string, interests []string) error {
+	values := url.Values{
+		"userKey": {userKey},
+	}
+	urlStr := fmt.Sprintf("%s/%d/interests?%s", c.basePath, networkId, values.Encode())
+	body, _ := json.Marshal(interests)
+	c.requestHeaders["Accept"] = "text/plain"
+	c.requestHeaders["Content-Type"] = "application/json"
+	_, err := c.request("POST", urlStr, &body)
+	return err
+}
+
+func (c *ApiClient) RemoveInterests(networkId int, userKey string, interests []string) error {
+	values := url.Values{
+		"userKey": {userKey},
+	}
+	urlStr := fmt.Sprintf("%s/%d/interests?%s", c.basePath, networkId, values.Encode())
+	body, _ := json.Marshal(interests)
+	c.requestHeaders["Accept"] = "text/plain"
+	c.requestHeaders["Content-Type"] = "application/json"
+	_, err := c.request("DELETE", urlStr, &body)
 	return err
 }
 
@@ -115,6 +141,7 @@ func (c *ApiClient) AddRetargetingSegment(networkId int, userKey string, adverti
 	urlStr := fmt.Sprintf(
 		"%s/%d/rt/%d/%d/i.gif?%s",
 		c.basePath, networkId, advertiserId, retargetingSegmentId, values.Encode())
+	c.requestHeaders["Accept"] = "text/plain"
 	_, err := c.request("GET", urlStr, nil)
 	return err
 }
@@ -124,6 +151,7 @@ func (c *ApiClient) Forget(networkId int, userKey string) error {
 		"userKey": {userKey},
 	}
 	urlStr := fmt.Sprintf("%s/%d?%s", c.basePath, networkId, values.Encode())
+	c.requestHeaders["Accept"] = "text/plain"
 	_, err := c.request("DELETE", urlStr, nil)
 	return err
 }
@@ -131,6 +159,7 @@ func (c *ApiClient) Forget(networkId int, userKey string) error {
 func (c *ApiClient) GdprConsent(networkId int, consentRequest model.ConsentRequest) error {
 	urlStr := fmt.Sprintf("%s/%d/consent", c.basePath, networkId)
 	body, _ := json.Marshal(consentRequest)
+	c.requestHeaders["Accept"] = "text/plain"
 	c.requestHeaders["Content-Type"] = "application/json"
 	_, err := c.request("POST", urlStr, &body)
 	return err
@@ -142,6 +171,7 @@ func (c *ApiClient) IpOverride(networkId int, userKey, ip string) error {
 		"ip":      {ip},
 	}
 	urlStr := fmt.Sprintf("%s/%d/ip/i.gif?%s", c.basePath, networkId, values.Encode())
+	c.requestHeaders["Accept"] = "text/plain"
 	_, err := c.request("GET", urlStr, nil)
 	return err
 }
@@ -153,6 +183,7 @@ func (c *ApiClient) MatchUser(networkId int, userKey string, partnerId, userId i
 		"userId":    {strconv.Itoa(userId)},
 	}
 	urlStr := fmt.Sprintf("%s/%d/sync/i.gif?%s", c.basePath, networkId, values.Encode())
+	c.requestHeaders["Accept"] = "text/plain"
 	_, err := c.request("GET", urlStr, nil)
 	return err
 }
@@ -162,6 +193,7 @@ func (c *ApiClient) OptOut(networkId int, userKey string) error {
 		"userKey": {userKey},
 	}
 	urlStr := fmt.Sprintf("%s/%d/optout/i.gif?%s", c.basePath, networkId, values.Encode())
+	c.requestHeaders["Accept"] = "text/plain"
 	_, err := c.request("GET", urlStr, nil)
 	return err
 }
@@ -171,7 +203,7 @@ func (c *ApiClient) ReadUser(networkId int, userKey string) (model.UserRecord, e
 		"userKey": {userKey},
 	}
 	urlStr := fmt.Sprintf("%s/%d/read?%s", c.basePath, networkId, values.Encode())
-
+	c.requestHeaders["Accept"] = "application/json"
 	res, err := c.request("GET", urlStr, nil)
 
 	if err != nil {
